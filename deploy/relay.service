@@ -1,0 +1,37 @@
+[Unit]
+Description=Belajar Relay — sistem kendali relay
+After=network-online.target mariadb.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=relay
+Group=relay
+WorkingDirectory=/opt/belajar-relay
+ExecStart=/opt/belajar-relay/relay
+
+# Environment dari berkas milik root, bukan dari .env di folder kerja.
+# Aplikasinya sendiri sudah menyiapkan ini: loadEnvFile hanya mengisi kunci
+# yang BELUM ada, jadi nilai dari systemd selalu menang.
+EnvironmentFile=/etc/belajar-relay.env
+
+Restart=on-failure
+RestartSec=5s
+
+# Pengetatan. Proses ini tidak menulis apa pun ke disk dan tidak butuh hak
+# istimewa — jadi semuanya dicabut. Kalau suatu saat ia perlu menulis berkas,
+# systemd akan menolaknya, dan itu memang yang kita mau: keputusan sadar.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

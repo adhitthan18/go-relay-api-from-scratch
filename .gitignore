@@ -1,0 +1,18 @@
+# Environment dan kredensial
+.env
+cookies.txt
+
+# Semua JSON di folder utama adalah berkas kerja curl atau NVS simulator —
+# keduanya memuat token atau password. Garis miring di depan membatasi pola
+# ini hanya ke folder teratas, jadi ui/package.json tidak terpengaruh.
+/*.json
+
+# Hasil build
+ui/node_modules/
+ui/dist/
+belajar-relay.tar.gz
+*.tar.gz
+
+# Binary
+/relay
+/relay.exe
