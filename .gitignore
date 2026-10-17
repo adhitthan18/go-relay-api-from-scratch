@@ -9,7 +9,12 @@ cookies.txt
 
 # Hasil build
 ui/node_modules/
-ui/dist/
+# ui/dist/.gitkeep tetap di-commit: //go:embed all:ui/dist gagal dikompilasi
+# kalau foldernya tidak ada, jadi clone baru harus bisa `go test` tanpa
+# membangun UI dulu. Vite mengosongkan dist/ setiap build lalu menyalin ulang
+# penanda itu dari ui/public/.gitkeep.
+ui/dist/*
+!ui/dist/.gitkeep
 belajar-relay.tar.gz
 *.tar.gz
 
