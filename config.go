@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/go-sql-driver/mysql"
@@ -121,7 +122,8 @@ func loadConfig() (*config, error) {
 		}
 	}
 	if len(kurang) > 0 {
-		strings.Join(kurang, ", ")
+		// Urutan map acak; diurutkan supaya pesannya sama di setiap percobaan.
+		slices.Sort(kurang)
 		return nil, fmt.Errorf("environment wajib belum diisi: %s", strings.Join(kurang, ", "))
 	}
 
