@@ -78,6 +78,7 @@ func deviceFromToken(ctx context.Context, db *sql.DB, token string) (*device, er
 	d.Enrolled = true
 	return &d, nil
 }
+
 // Perangkat menyapa tiap 2 detik. Menulis last_seen_at setiap kali berarti
 // satu tulisan per perangkat per 2 detik — dengan 1000 perangkat itu 500
 // tulisan per detik hanya untuk mencatat "saya masih hidup".

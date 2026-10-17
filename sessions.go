@@ -80,6 +80,7 @@ func deleteSession(ctx context.Context, db *sql.DB, token string) error {
 	}
 	return nil
 }
+
 // hapusSessionKedaluwarsa membuang baris yang masa berlakunya sudah lewat.
 //
 // Session yang kedaluwarsa memang sudah ditolak saat dipakai — query di

@@ -3,22 +3,23 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"net"
 	"os"
 	"strings"
-	"net"
 
 	"github.com/go-sql-driver/mysql"
 )
 
 type config struct {
-	Port          string
-	DSN           string
-	AdminEmail    string
-	AdminPassword string
-	CookieSecure  bool
-	BootstrapKey  string
+	Port           string
+	DSN            string
+	AdminEmail     string
+	AdminPassword  string
+	CookieSecure   bool
+	BootstrapKey   string
 	TrustedProxies []*net.IPNet
 }
+
 // parseTrustedProxies mengubah daftar dari environment menjadi jaringan.
 // Alamat tunggal boleh ditulis apa adanya — ia dianggap /32 atau /128.
 func parseTrustedProxies(daftar string) ([]*net.IPNet, error) {
@@ -51,6 +52,7 @@ func parseTrustedProxies(daftar string) ([]*net.IPNet, error) {
 
 	return hasil, nil
 }
+
 // loadEnvFile mengisi environment dari berkas, hanya untuk kunci yang BELUM ada.
 // Berkasnya boleh tidak ada — di server, systemd yang mengisi environment.
 func loadEnvFile(path string) error {
@@ -104,17 +106,15 @@ func loadConfig() (*config, error) {
 	password := os.Getenv("DB_PASSWORD")
 	name := os.Getenv("DB_NAME")
 	bootstrapKey := os.Getenv("BOOTSTRAP_KEY")
-	
 
 	var kurang []string
 	for kunci, nilai := range map[string]string{
-		"DB_HOST":     host,
-		"DB_PORT":     dbPort,
-		"DB_USER":     user,
-		"DB_PASSWORD": password,
-		"DB_NAME":     name,
+		"DB_HOST":       host,
+		"DB_PORT":       dbPort,
+		"DB_USER":       user,
+		"DB_PASSWORD":   password,
+		"DB_NAME":       name,
 		"BOOTSTRAP_KEY": bootstrapKey,
-		
 	} {
 		if nilai == "" {
 			kurang = append(kurang, kunci)
@@ -138,7 +138,7 @@ func loadConfig() (*config, error) {
 	my.Loc = nil
 	my.AllowNativePasswords = true
 
-		port := os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}

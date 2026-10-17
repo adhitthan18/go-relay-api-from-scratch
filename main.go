@@ -5,12 +5,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-	"net"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -71,7 +71,7 @@ func main() {
 		os.Exit(1)
 	}
 
-		// Hash palsu untuk menyamakan waktu tempuh saat email tidak ditemukan.
+	// Hash palsu untuk menyamakan waktu tempuh saat email tidak ditemukan.
 	dummyHash, err := hashPassword("hash-pembanding-yang-tidak-dipakai")
 	if err != nil {
 		fmt.Println("menyiapkan hash pembanding gagal:", err)
@@ -79,12 +79,12 @@ func main() {
 	}
 
 	app := &application{
-		db:           db,
-		version:      "0.1.0",
-		cookieSecure: cfg.CookieSecure,
-		dummyHash:    dummyHash,
-		loginLimiter: newRateLimiter(5, 15*time.Minute),
-		bootstrapKey: cfg.BootstrapKey,
+		db:             db,
+		version:        "0.1.0",
+		cookieSecure:   cfg.CookieSecure,
+		dummyHash:      dummyHash,
+		loginLimiter:   newRateLimiter(5, 15*time.Minute),
+		bootstrapKey:   cfg.BootstrapKey,
 		trustedProxies: cfg.TrustedProxies,
 	}
 
@@ -112,7 +112,6 @@ func main() {
 	mux.HandleFunc("POST /api/commands/ack", app.requireDevice(app.ackCommand))
 	mux.HandleFunc("GET /audit", app.requireUser(app.listAudit))
 
-	
 	// Penampung sisa: apa pun yang tidak cocok dengan rute di atas dilayani
 	// sebagai berkas dashboard. Sejak Go 1.22 ServeMux memilih pola yang paling
 	// spesifik, jadi "GET /devices" tetap menang atas "GET /".

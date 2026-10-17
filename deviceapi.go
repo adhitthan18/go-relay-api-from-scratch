@@ -110,7 +110,7 @@ func (app *application) requireDevice(
 			writeError(w, http.StatusUnauthorized, "token perangkat tidak berlaku")
 			return
 		}
-				// Permintaan apa pun yang lolos autentikasi membuktikan perangkat hidup —
+		// Permintaan apa pun yang lolos autentikasi membuktikan perangkat hidup —
 		// termasuk polling yang tidak menemukan perintah apa-apa.
 		if err := tandaiTerlihat(r.Context(), app.db, d.ID); err != nil {
 			// Gagal mencatat bukan alasan menolak permintaannya.

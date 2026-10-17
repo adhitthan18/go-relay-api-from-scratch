@@ -177,6 +177,7 @@ func claimStatus(ctx context.Context, db *sql.DB, hardwareID, secret string) (st
 
 	return "claimed", token, nil
 }
+
 var errQRTidakBerlaku = errors.New("QR tidak dikenal atau sudah kedaluwarsa")
 
 func claimDevice(ctx context.Context, db *sql.DB, qrPayload, displayName, userID string) (string, error) {
@@ -231,6 +232,7 @@ func claimDevice(ctx context.Context, db *sql.DB, qrPayload, displayName, userID
 
 	return id, nil
 }
+
 // releaseDevice melepas perangkat dari sistem.
 //
 // Tokennya dicabut dan statusnya kembali ke pending. Perangkat akan menyadari

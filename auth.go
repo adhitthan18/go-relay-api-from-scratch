@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 )
+
 const sessionCookieName = "session"
 
 type loginRequest struct {
@@ -128,6 +129,7 @@ func (app *application) requireUser(
 func (app *application) me(w http.ResponseWriter, r *http.Request, u *user) {
 	writeJSON(w, http.StatusOK, meResponse{Email: u.Email, Role: u.Role})
 }
+
 // clientIP mengambil alamat pemanggil. Di belakang Nginx ini akan berisi
 // 127.0.0.1 untuk semua orang — lihat catatan di bawah.
 // clientIP menentukan alamat pemanggil, dan ini lebih berduri daripada
@@ -190,7 +192,6 @@ func alamatSaja(remoteAddr string) string {
 	return host
 }
 
-
 func (app *application) listDevices(w http.ResponseWriter, r *http.Request, u *user) {
 	daftar, err := listDevices(r.Context(), app.db)
 	if err != nil {
@@ -239,6 +240,7 @@ func (app *application) createCommand(w http.ResponseWriter, r *http.Request, u 
 
 	writeJSON(w, http.StatusCreated, c)
 }
+
 type claimDeviceRequest struct {
 	QRPayload   string `json:"qr_payload"`
 	DisplayName string `json:"display_name"`
